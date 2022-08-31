@@ -1,0 +1,10 @@
+
+
+.cardContainer {
+    background-color: skyblue !important;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
