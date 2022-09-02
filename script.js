@@ -60,15 +60,23 @@ function showQuestion() {
 function answer(selection) {
     let question = questions[currentQuestion];
     console.log('selected answer is', selection)
-    let theAnswerNumber = selection.slice(-1) ; //slice(-1) wird benutzt um ein das letzte Element eines Wortes oder Zahl zu ziehen, in diesem Fall also die letzte stelle von z.B. answer_3 also 3
+    let theAnswerNumber = selection.slice(-1); //slice(-1) wird benutzt um ein das letzte Element eines Wortes oder Zahl zu ziehen, in diesem Fall also die letzte stelle von z.B. answer_3 also 3
     console.log('the answer number is', theAnswerNumber)
     console.log('Current question is', question['right answer'])
+    buttenEnabled();
 
-    if(theAnswerNumber == question['right answer']) {
+    let idOfRightAnswer = `answer_${question['right answer']}`
+
+    if (theAnswerNumber == question['right answer']) {
         console.log('richtige Antwort')
         document.getElementById(selection).parentNode.classList.add('bg-success');
     } else {
         console.log('falsche Antwort')
         document.getElementById(selection).parentNode.classList.add('bg-danger')
+        document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success')
     }
+}
+
+function buttenEnabled() {
+    document.getElementById('button').disabled = false;
 }
