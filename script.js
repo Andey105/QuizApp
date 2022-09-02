@@ -51,13 +51,13 @@ function init() {
 function showQuestion() {
     let question = questions[currentQuestion];
     document.getElementById('questionText').innerHTML = `${question['question']}`
-    document.getElementById('answerText1').innerHTML = `${question['answer_1']}`
-    document.getElementById('answerText2').innerHTML = `${question['answer_2']}`
-    document.getElementById('answerText3').innerHTML = `${question['answer_3']}`
-    document.getElementById('answerText4').innerHTML = `${question['answer_4']}`
+    document.getElementById('answer_1').innerHTML = `${question['answer_1']}`
+    document.getElementById('answer_2').innerHTML = `${question['answer_2']}`
+    document.getElementById('answer_3').innerHTML = `${question['answer_3']}`
+    document.getElementById('answer_4').innerHTML = `${question['answer_4']}`
 }
 
-function answer(selection,) {
+function answer(selection) {
     let question = questions[currentQuestion];
     console.log('selected answer is', selection)
     let theAnswerNumber = selection.slice(-1) ; //slice(-1) wird benutzt um ein das letzte Element eines Wortes oder Zahl zu ziehen, in diesem Fall also die letzte stelle von z.B. answer_3 also 3
@@ -66,7 +66,9 @@ function answer(selection,) {
 
     if(theAnswerNumber == question['right answer']) {
         console.log('richtige Antwort')
+        document.getElementById(selection).parentNode.classList.add('bg-success');
     } else {
         console.log('falsche Antwort')
+        document.getElementById(selection).parentNode.classList.add('bg-danger')
     }
 }
