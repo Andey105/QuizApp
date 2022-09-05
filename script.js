@@ -42,22 +42,38 @@ let questions = [
 ];
 
 
-let clickRightQuestions = 0;
+let clickRightQuestions = 0;  // Variable startet bei null
+let currentQuestion = 0;    // Variable startet bei null
 
-let currentQuestion = 0;
+let audioSuccess = new Audio ('audio/success.mp3')
+let audioFail = new Audio ('audio/fail.mp3') 
+
+
+
+
 
 function init() {
     //durch diese Funktion wird die Seite mit Javascript gestartet
-    document.getElementById('questionLenght').innerHTML = questions.length;
+    document.getElementById('questionLenght').innerHTML = questions.length; 
     showQuestion();
    
 }
 
 function showQuestion() {
+    //show Endscreen
     if (currentQuestion >= questions.length) {
         document.getElementById('endScreen').style = ''
         document.getElementById('questionBody').style = 'display: none'
+        document.getElementById('showPrecent').innerHTML= `100%`,
+        document.getElementById('showPrecent').style.width= `100%`;
+
     } else {
+        // Show Question
+        let precent = currentQuestion / questions.length * 100
+        console.log(precent) ;
+        document.getElementById('showPrecent').innerHTML= `${precent}%`
+        document.getElementById('showPrecent').style.width= `${precent}%`
+
         console.log('die Frage und die Antworten werden aus dem Array geladen')
         let question = questions[currentQuestion];
         document.getElementById('questionText').innerHTML = `${question['question']}`
@@ -66,6 +82,7 @@ function showQuestion() {
         document.getElementById('answer_3').innerHTML = `${question['answer_3']}`
         document.getElementById('answer_4').innerHTML = `${question['answer_4']}`
     }
+
 }
 
 function answer(selection) {
@@ -74,16 +91,19 @@ function answer(selection) {
     let theAnswerNumber = selection.slice(-1); //slice(-1) wird benutzt um ein das letzte Element eines Wortes oder Zahl zu ziehen, in diesem Fall also die letzte stelle von z.B. answer_3 also 3
     //die Variable "teAnswerNumber" zeigt die Nummer der ausgewählten antwort an
 
+
     let idOfRightAnswer = `answer_${question['right answer']}`
 
     if (theAnswerNumber == question['right answer']) {
         console.log('richtige Antwort');
         document.getElementById(selection).parentNode.classList.add('bg-success');
         clickRightQuestions++;
+        audioSuccess.play()
     } else {
         console.log('falsche Antwort');
         document.getElementById(selection).parentNode.classList.add('bg-danger');
         document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
+        audioFail.play();
     }
     
     rightQuestions();
@@ -109,4 +129,13 @@ function nextQuestion() {
 function rightQuestions() {
     document.getElementById('allQuestions').innerHTML = `${questions.length}`;
     document.getElementById('numberOfRightQuestions').innerHTML = clickRightQuestions;
+}
+
+function restartGame() {
+    currentQuestion = 0 ;   // Variable zurücksetzen
+    clickRightQuestions = 0 ;   // Variable zurücksetzen
+    init()      // Funktion ausführen, um Spiel erneut zu spielen
+    document.getElementById('questionBody').style = '' // QuestionScrenn wieder einblenden
+    document.getElementById('endScreen').style = 'display : none' // Endscreen ausbelnden
+    document.getElementById('questionNumber').innerHTML = `${currentQuestion + 1}` // Anzeige in welcher Frage wir sind, wieder zurücksetzen
 }
