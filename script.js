@@ -44,39 +44,58 @@ let questions = [
 let currentQuestion = 0;
 
 function init() {
+    //durch diese Funktion wird die Seite mit Javascript gestartet
     document.getElementById('questionLenght').innerHTML = questions.length;
     showQuestion();
 }
 
 function showQuestion() {
-    let question = questions[currentQuestion];
-    document.getElementById('questionText').innerHTML = `${question['question']}`
-    document.getElementById('answer_1').innerHTML = `${question['answer_1']}`
-    document.getElementById('answer_2').innerHTML = `${question['answer_2']}`
-    document.getElementById('answer_3').innerHTML = `${question['answer_3']}`
-    document.getElementById('answer_4').innerHTML = `${question['answer_4']}`
+    if (currentQuestion >= questions.length) {
+        document.getElementById('endScreen').style = ''
+        document.getElementById('questionBody').style = 'display: none'
+    } else {
+        console.log('die Frage und die Antworten werden aus dem Array geladen')
+        let question = questions[currentQuestion];
+        document.getElementById('questionText').innerHTML = `${question['question']}`
+        document.getElementById('answer_1').innerHTML = `${question['answer_1']}`
+        document.getElementById('answer_2').innerHTML = `${question['answer_2']}`
+        document.getElementById('answer_3').innerHTML = `${question['answer_3']}`
+        document.getElementById('answer_4').innerHTML = `${question['answer_4']}`
+    }
 }
 
 function answer(selection) {
     let question = questions[currentQuestion];
-    console.log('selected answer is', selection)
+    //die Variable "selection" gibt die ausgewählte Antwort an
     let theAnswerNumber = selection.slice(-1); //slice(-1) wird benutzt um ein das letzte Element eines Wortes oder Zahl zu ziehen, in diesem Fall also die letzte stelle von z.B. answer_3 also 3
-    console.log('the answer number is', theAnswerNumber)
-    console.log('Current question is', question['right answer'])
-    buttenEnabled();
+    //die Variable "teAnswerNumber" zeigt die Nummer der ausgewählten antwort an
 
     let idOfRightAnswer = `answer_${question['right answer']}`
 
     if (theAnswerNumber == question['right answer']) {
-        console.log('richtige Antwort')
+        console.log('richtige Antwort');
         document.getElementById(selection).parentNode.classList.add('bg-success');
     } else {
-        console.log('falsche Antwort')
-        document.getElementById(selection).parentNode.classList.add('bg-danger')
-        document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success')
+        console.log('falsche Antwort');
+        document.getElementById(selection).parentNode.classList.add('bg-danger');
+        document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
     }
+
+    buttenEnabled();
 }
 
 function buttenEnabled() {
+    //durch diese Funktion wird der Button aktiviert
     document.getElementById('button').disabled = false;
+}
+
+function nextQuestion() {
+    //Diese Funktion lässt die nächste Frage laden
+    currentQuestion++; // die variable wird von 0 auf 1 erhöht.
+    showQuestion();
+    document.getElementById('button').disabled = true;
+    for (i = 1; i < 5; i++) {
+        document.getElementById(`answer_${i}`).parentNode.classList.remove('bg-danger', 'bg-success')
+        document.getElementById('questionNumber').innerHTML = `${currentQuestion + 1}`
+    }
 }
