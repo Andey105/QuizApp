@@ -41,12 +41,16 @@ let questions = [
     },
 ];
 
+
+let clickRightQuestions = 0;
+
 let currentQuestion = 0;
 
 function init() {
     //durch diese Funktion wird die Seite mit Javascript gestartet
     document.getElementById('questionLenght').innerHTML = questions.length;
     showQuestion();
+   
 }
 
 function showQuestion() {
@@ -75,12 +79,14 @@ function answer(selection) {
     if (theAnswerNumber == question['right answer']) {
         console.log('richtige Antwort');
         document.getElementById(selection).parentNode.classList.add('bg-success');
+        clickRightQuestions++;
     } else {
         console.log('falsche Antwort');
         document.getElementById(selection).parentNode.classList.add('bg-danger');
         document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
     }
-
+    
+    rightQuestions();
     buttenEnabled();
 }
 
@@ -98,4 +104,9 @@ function nextQuestion() {
         document.getElementById(`answer_${i}`).parentNode.classList.remove('bg-danger', 'bg-success')
         document.getElementById('questionNumber').innerHTML = `${currentQuestion + 1}`
     }
+}
+
+function rightQuestions() {
+    document.getElementById('allQuestions').innerHTML = `${questions.length}`;
+    document.getElementById('numberOfRightQuestions').innerHTML = clickRightQuestions;
 }
